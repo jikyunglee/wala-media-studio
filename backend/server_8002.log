@@ -1,0 +1,882 @@
+INFO:     Will watch for changes in these directories: ['/Users/wala/Desktop/WALA_안티그래비티/custom_media_studio/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8002 (Press CTRL+C to quit)
+INFO:     Started reloader process [44146] using StatReload
+INFO:     Started server process [44224]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-20 22:53:42,239 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 22:53:42,239 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-20 22:53:42,239 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 22:53:42,240 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-20 22:53:42,240 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 22:53:42,240 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+2026-02-20 22:55:34,688 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 22:55:34,693 INFO sqlalchemy.engine.Engine INSERT INTO job (id, status, created_at, updated_at, result_gcs_path, result_public_url, error_message, request_image_path, request_prompt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-02-20 22:55:34,693 INFO sqlalchemy.engine.Engine [generated in 0.00035s] ('507f9da1-bbe3-4ffe-ae74-4af1323ebf77', 'queued', '2026-02-20 13:55:34.687642', '2026-02-20 13:55:34.687664', None, None, None, 'gs://wala-media-assets-7890/assets/test.png', "Create a hyperrealistic 8K video showcasing Neo-Kyoto, a futuristic metropolis circa 2077, where sleek, aerodynamic flying vehicles weave seamlessly  ... (843 characters truncated) ... ievable and tangible. Incorporate subtle ambient sounds of futuristic vehicle engines and distant city chatter to enhance the immersive experience.\n")
+2026-02-20 22:55:34,695 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 22:55:34,696 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 22:55:34,697 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 22:55:34,697 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ('507f9da1-bbe3-4ffe-ae74-4af1323ebf77',)
+INFO:     127.0.0.1:58845 - "POST /video/generate HTTP/1.1" 200 OK
+백그라운드 작업 시작: Job ID 507f9da1-bbe3-4ffe-ae74-4af1323ebf77
+2026-02-20 22:55:34,806 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 22:55:34,808 INFO sqlalchemy.engine.Engine SELECT job.id AS job_id, job.status AS job_status, job.created_at AS job_created_at, job.updated_at AS job_updated_at, job.result_gcs_path AS job_result_gcs_path, job.result_public_url AS job_result_public_url, job.error_message AS job_error_message, job.request_image_path AS job_request_image_path, job.request_prompt AS job_request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 22:55:34,808 INFO sqlalchemy.engine.Engine [generated in 0.00022s] ('507f9da1-bbe3-4ffe-ae74-4af1323ebf77',)
+2026-02-20 22:55:34,811 INFO sqlalchemy.engine.Engine UPDATE job SET status=? WHERE job.id = ?
+2026-02-20 22:55:34,811 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ('processing', '507f9da1-bbe3-4ffe-ae74-4af1323ebf77')
+2026-02-20 22:55:34,812 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 22:55:34,813 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 22:55:34,813 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 22:55:34,814 INFO sqlalchemy.engine.Engine [cached since 0.1163s ago] ('507f9da1-bbe3-4ffe-ae74-4af1323ebf77',)
+Traceback (most recent call last):
+  File "/Users/wala/Desktop/WALA_안티그래비티/custom_media_studio/backend/app/services/video_generation.py", line 106, in generate_video_from_image
+    video_data = final_result.generated_videos[0].video.data
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/pydantic/main.py", line 1026, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Video' object has no attribute 'data'
+REAL VEO 비디오 생성 시작...
+작업 시작됨: models/veo-3.1-generate-preview/operations/051tahazrbc4
+작업 진행 중... (시간: 0초)
+작업 진행 중... (시간: 20초)
+작업 진행 중... (시간: 40초)
+작업 진행 중... (시간: 61초)
+작업 완료!
+VEO 프로세스 에러: 'Video' object has no attribute 'data'
+백그라운드 작업 실패: 'Video' object has no attribute 'data'
+2026-02-20 22:56:58,273 INFO sqlalchemy.engine.Engine UPDATE job SET status=?, error_message=? WHERE job.id = ?
+2026-02-20 22:56:58,273 INFO sqlalchemy.engine.Engine [generated in 0.00031s] ('failed', "'Video' object has no attribute 'data'", '507f9da1-bbe3-4ffe-ae74-4af1323ebf77')
+2026-02-20 22:56:58,274 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 22:56:58,275 INFO sqlalchemy.engine.Engine ROLLBACK
+WARNING:  StatReload detected changes in 'app/services/video_generation.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [44224]
+INFO:     Started server process [45761]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-20 23:03:04,327 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:03:04,328 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-20 23:03:04,328 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:03:04,330 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-20 23:03:04,330 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:03:04,330 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+2026-02-20 23:03:49,758 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:03:49,761 INFO sqlalchemy.engine.Engine INSERT INTO job (id, status, created_at, updated_at, result_gcs_path, result_public_url, error_message, request_image_path, request_prompt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-02-20 23:03:49,761 INFO sqlalchemy.engine.Engine [generated in 0.00031s] ('e4c6fc65-1fcc-4c32-b4ec-b0f1b4d329cd', 'queued', '2026-02-20 14:03:49.757698', '2026-02-20 14:03:49.757722', None, None, None, 'gs://wala-media-assets-7890/assets/test.png', 'Generate a hyper-realistic, 8K resolution video depicting a cyberpunk forest bathed in an ethereal glow. The scene should be predominantly forest, bu ... (769 characters truncated) ... tic elements with meticulous accuracy, making the scene feel tangible and immersive, evoking a sense of a futuristic, yet still organic, ecosystem.\n')
+2026-02-20 23:03:49,764 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:03:49,765 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:03:49,767 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:03:49,767 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ('e4c6fc65-1fcc-4c32-b4ec-b0f1b4d329cd',)
+INFO:     127.0.0.1:58959 - "POST /video/generate HTTP/1.1" 200 OK
+백그라운드 작업 시작: Job ID e4c6fc65-1fcc-4c32-b4ec-b0f1b4d329cd
+2026-02-20 23:03:49,841 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:03:49,842 INFO sqlalchemy.engine.Engine SELECT job.id AS job_id, job.status AS job_status, job.created_at AS job_created_at, job.updated_at AS job_updated_at, job.result_gcs_path AS job_result_gcs_path, job.result_public_url AS job_result_public_url, job.error_message AS job_error_message, job.request_image_path AS job_request_image_path, job.request_prompt AS job_request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:03:49,842 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('e4c6fc65-1fcc-4c32-b4ec-b0f1b4d329cd',)
+2026-02-20 23:03:49,845 INFO sqlalchemy.engine.Engine UPDATE job SET status=? WHERE job.id = ?
+2026-02-20 23:03:49,845 INFO sqlalchemy.engine.Engine [generated in 0.00018s] ('processing', 'e4c6fc65-1fcc-4c32-b4ec-b0f1b4d329cd')
+2026-02-20 23:03:49,845 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:03:49,846 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:03:49,846 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:03:49,846 INFO sqlalchemy.engine.Engine [cached since 0.07931s ago] ('e4c6fc65-1fcc-4c32-b4ec-b0f1b4d329cd',)
+Traceback (most recent call last):
+  File "/Users/wala/Desktop/WALA_안티그래비티/custom_media_studio/backend/app/services/video_generation.py", line 111, in generate_video_from_image
+    await asyncio.to_thread(blob.upload_from_string, video_data, content_type="video/mp4")
+  File "/opt/anaconda3/lib/python3.12/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/google/cloud/storage/blob.py", line 3347, in upload_from_string
+    data = _to_bytes(data, encoding="utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/google/cloud/_helpers/__init__.py", line 333, in _to_bytes
+    raise TypeError("%r could not be converted to bytes" % (value,))
+TypeError: None could not be converted to bytes
+REAL VEO 비디오 생성 시작...
+작업 시작됨: models/veo-3.1-generate-preview/operations/2g2l3c7f4pt0
+작업 진행 중... (시간: 0초)
+작업 진행 중... (시간: 20초)
+작업 진행 중... (시간: 40초)
+작업 진행 중... (시간: 61초)
+작업 완료!
+VEO 프로세스 에러: None could not be converted to bytes
+백그라운드 작업 실패: None could not be converted to bytes
+2026-02-20 23:05:13,807 INFO sqlalchemy.engine.Engine UPDATE job SET status=?, error_message=? WHERE job.id = ?
+2026-02-20 23:05:13,808 INFO sqlalchemy.engine.Engine [generated in 0.00051s] ('failed', 'None could not be converted to bytes', 'e4c6fc65-1fcc-4c32-b4ec-b0f1b4d329cd')
+2026-02-20 23:05:13,808 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:05:13,810 INFO sqlalchemy.engine.Engine ROLLBACK
+WARNING:  StatReload detected changes in 'app/services/video_generation.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [45761]
+INFO:     Started server process [46492]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-20 23:07:06,808 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:07:06,809 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-20 23:07:06,809 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:07:06,809 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-20 23:07:06,809 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:07:06,809 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+2026-02-20 23:07:25,510 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:07:25,512 INFO sqlalchemy.engine.Engine INSERT INTO job (id, status, created_at, updated_at, result_gcs_path, result_public_url, error_message, request_image_path, request_prompt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-02-20 23:07:25,512 INFO sqlalchemy.engine.Engine [generated in 0.00019s] ('18eea0f8-8944-47b4-8ff4-5f16a6ab5aae', 'queued', '2026-02-20 14:07:25.509782', '2026-02-20 14:07:25.509795', None, None, None, 'gs://wala-media-assets-7890/assets/test.png', "Create an 8K resolution, photorealistic time-lapse video of a single flower blooming, rendered in a vibrant, digital art style, think glowing neon ou ... (682 characters truncated) ... raceful fade to black. The overall aesthetic should evoke a sense of futuristic beauty and organic growth fused with cutting-edge digital artistry.\n")
+2026-02-20 23:07:25,515 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:07:25,516 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:07:25,517 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:07:25,517 INFO sqlalchemy.engine.Engine [generated in 0.00007s] ('18eea0f8-8944-47b4-8ff4-5f16a6ab5aae',)
+INFO:     127.0.0.1:59001 - "POST /video/generate HTTP/1.1" 200 OK
+백그라운드 작업 시작: Job ID 18eea0f8-8944-47b4-8ff4-5f16a6ab5aae
+2026-02-20 23:07:25,581 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:07:25,582 INFO sqlalchemy.engine.Engine SELECT job.id AS job_id, job.status AS job_status, job.created_at AS job_created_at, job.updated_at AS job_updated_at, job.result_gcs_path AS job_result_gcs_path, job.result_public_url AS job_result_public_url, job.error_message AS job_error_message, job.request_image_path AS job_request_image_path, job.request_prompt AS job_request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:07:25,582 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('18eea0f8-8944-47b4-8ff4-5f16a6ab5aae',)
+2026-02-20 23:07:25,584 INFO sqlalchemy.engine.Engine UPDATE job SET status=? WHERE job.id = ?
+2026-02-20 23:07:25,584 INFO sqlalchemy.engine.Engine [generated in 0.00008s] ('processing', '18eea0f8-8944-47b4-8ff4-5f16a6ab5aae')
+2026-02-20 23:07:25,584 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:07:25,585 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:07:25,585 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:07:25,585 INFO sqlalchemy.engine.Engine [cached since 0.06778s ago] ('18eea0f8-8944-47b4-8ff4-5f16a6ab5aae',)
+Traceback (most recent call last):
+  File "/Users/wala/Desktop/WALA_안티그래비티/custom_media_studio/backend/app/services/video_generation.py", line 115, in generate_video_from_image
+    await asyncio.to_thread(blob.upload_from_string, video_data, content_type="video/mp4")
+  File "/opt/anaconda3/lib/python3.12/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/google/cloud/storage/blob.py", line 3347, in upload_from_string
+    data = _to_bytes(data, encoding="utf-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/site-packages/google/cloud/_helpers/__init__.py", line 333, in _to_bytes
+    raise TypeError("%r could not be converted to bytes" % (value,))
+TypeError: None could not be converted to bytes
+REAL VEO 비디오 생성 시작...
+작업 시작됨: models/veo-3.1-generate-preview/operations/klzct1ci1vby
+작업 진행 중... (시간: 0초)
+작업 진행 중... (시간: 20초)
+작업 진행 중... (시간: 40초)
+작업 진행 중... (시간: 61초)
+작업 완료!
+DEBUG: final_result=generated_videos=[GeneratedVideo(
+  video=Video(
+    uri='https://generativelanguage.googleapis.com/v1alpha/files/f7t0btz8ouvj:download?alt=media'
+  )
+)] rai_media_filtered_count=None rai_media_filtered_reasons=None
+DEBUG: Video bytes are None. Video object: uri='https://generativelanguage.googleapis.com/v1alpha/files/f7t0btz8ouvj:download?alt=media' video_bytes=None mime_type=None
+VEO 프로세스 에러: None could not be converted to bytes
+백그라운드 작업 실패: None could not be converted to bytes
+2026-02-20 23:08:49,160 INFO sqlalchemy.engine.Engine UPDATE job SET status=?, error_message=? WHERE job.id = ?
+2026-02-20 23:08:49,161 INFO sqlalchemy.engine.Engine [generated in 0.00073s] ('failed', 'None could not be converted to bytes', '18eea0f8-8944-47b4-8ff4-5f16a6ab5aae')
+2026-02-20 23:08:49,161 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:08:49,163 INFO sqlalchemy.engine.Engine ROLLBACK
+WARNING:  StatReload detected changes in 'app/services/video_generation.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [46492]
+INFO:     Started server process [47669]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-20 23:11:45,840 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:11:45,840 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-20 23:11:45,840 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:11:45,840 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-20 23:11:45,840 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:11:45,840 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+2026-02-20 23:11:56,503 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:11:56,505 INFO sqlalchemy.engine.Engine INSERT INTO job (id, status, created_at, updated_at, result_gcs_path, result_public_url, error_message, request_image_path, request_prompt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-02-20 23:11:56,505 INFO sqlalchemy.engine.Engine [generated in 0.00030s] ('e3419f0b-2da3-459e-8639-af53d83d0a12', 'queued', '2026-02-20 14:11:56.502577', '2026-02-20 14:11:56.502589', None, None, None, 'gs://wala-media-assets-7890/assets/test.png', "Generate an 8K resolution, photorealistic video depicting a vibrant sunset over a perfectly calm ocean. The camera slowly pans across the scene, star ... (623 characters truncated) ...  and serenity. The final shot should linger on the fading sunlight, leaving the viewer with a lasting impression of the ocean's beauty at twilight.\n")
+2026-02-20 23:11:56,507 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:11:56,507 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:11:56,509 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:11:56,509 INFO sqlalchemy.engine.Engine [generated in 0.00008s] ('e3419f0b-2da3-459e-8639-af53d83d0a12',)
+INFO:     127.0.0.1:59080 - "POST /video/generate HTTP/1.1" 200 OK
+백그라운드 작업 시작: Job ID e3419f0b-2da3-459e-8639-af53d83d0a12
+2026-02-20 23:11:56,591 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:11:56,592 INFO sqlalchemy.engine.Engine SELECT job.id AS job_id, job.status AS job_status, job.created_at AS job_created_at, job.updated_at AS job_updated_at, job.result_gcs_path AS job_result_gcs_path, job.result_public_url AS job_result_public_url, job.error_message AS job_error_message, job.request_image_path AS job_request_image_path, job.request_prompt AS job_request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:11:56,592 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('e3419f0b-2da3-459e-8639-af53d83d0a12',)
+2026-02-20 23:11:56,594 INFO sqlalchemy.engine.Engine UPDATE job SET status=? WHERE job.id = ?
+2026-02-20 23:11:56,594 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ('processing', 'e3419f0b-2da3-459e-8639-af53d83d0a12')
+2026-02-20 23:11:56,595 INFO sqlalchemy.engine.Engine COMMIT
+2026-02-20 23:11:56,596 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:11:56,596 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job 
+WHERE job.id = ?
+2026-02-20 23:11:56,596 INFO sqlalchemy.engine.Engine [cached since 0.08742s ago] ('e3419f0b-2da3-459e-8639-af53d83d0a12',)
+REAL VEO 비디오 생성 시작...
+작업 시작됨: models/veo-3.1-generate-preview/operations/tq4l8q0exze0
+작업 진행 중... (시간: 0초)
+작업 진행 중... (시간: 20초)
+작업 진행 중... (시간: 40초)
+작업 완료!
+DEBUG: final_result=generated_videos=[GeneratedVideo(
+  video=Video(
+    uri='https://generativelanguage.googleapis.com/v1alpha/files/u8qd8bjxs05i:download?alt=media'
+  )
+)] rai_media_filtered_count=None rai_media_filtered_reasons=None
+비디오 데이터 직접 없음. URI에서 다운로드 시도: https://generativelanguage.googleapis.com/v1alpha/files/u8qd8bjxs05i:download?alt=media
+다운로드 완료: 6120228 바이트
+2026-02-20 23:13:03,158 INFO sqlalchemy.engine.Engine UPDATE job SET status=?, result_gcs_path=?, result_public_url=? WHERE job.id = ?
+2026-02-20 23:13:03,158 INFO sqlalchemy.engine.Engine [generated in 0.00047s] ('completed', 'gs://wala-media-assets-7890/generated_videos/veo_video_0e72da77-e633-4a40-a02d-b069346c8f27.mp4', 'https://storage.googleapis.com/wala-media-assets-7890/generated_videos/veo_video_0e72da77-e633-4a40-a02d-b069346c8f27.mp4', 'e3419f0b-2da3-459e-8639-af53d83d0a12')
+2026-02-20 23:13:03,159 INFO sqlalchemy.engine.Engine COMMIT
+백그라운드 작업 성공. Job ID: e3419f0b-2da3-459e-8639-af53d83d0a12, URL: https://storage.googleapis.com/wala-media-assets-7890/generated_videos/veo_video_0e72da77-e633-4a40-a02d-b069346c8f27.mp4
+2026-02-20 23:13:03,162 INFO sqlalchemy.engine.Engine ROLLBACK
+WARNING:  StatReload detected changes in 'app/services/video_generation.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [47669]
+INFO:     Started server process [48250]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-20 23:14:06,160 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:14:06,160 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-20 23:14:06,160 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:14:06,161 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-20 23:14:06,161 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:14:06,161 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/services/video_generation.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [48250]
+INFO:     Started server process [48255]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-20 23:14:31,983 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-20 23:14:31,983 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-20 23:14:31,983 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:14:31,984 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-20 23:14:31,984 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-20 23:14:31,984 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'seed_templates.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [48255]
+INFO:     Started server process [49763]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-21 00:08:55,693 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:08:55,694 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-21 00:08:55,694 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-21 00:08:55,694 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-21 00:08:55,694 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-21 00:08:55,694 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [49763]
+INFO:     Started server process [50225]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-21 00:09:57,243 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:09:57,243 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-21 00:09:57,243 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-21 00:09:57,244 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-21 00:09:57,244 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-21 00:09:57,244 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+INFO:     127.0.0.1:59828 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59828 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:23:22,491 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:23:22,500 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:23:22,501 INFO sqlalchemy.engine.Engine [generated in 0.00038s] ()
+INFO:     127.0.0.1:59826 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:23:22,511 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:23:22,513 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:23:22,513 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:23:22,513 INFO sqlalchemy.engine.Engine [cached since 0.01255s ago] ()
+INFO:     127.0.0.1:59828 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:23:22,514 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:59832 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59832 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:23:33,992 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:23:33,993 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:23:33,993 INFO sqlalchemy.engine.Engine [cached since 11.49s ago] ()
+INFO:     127.0.0.1:59832 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:23:33,995 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:23:33,998 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:23:33,998 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:23:33,998 INFO sqlalchemy.engine.Engine [cached since 11.5s ago] ()
+INFO:     127.0.0.1:59836 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:23:34,000 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:59836 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59832 - "GET /assets/ HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'seed_templates.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [50225]
+INFO:     Started server process [51879]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-21 00:29:45,678 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:29:45,678 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-21 00:29:45,679 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-21 00:29:45,679 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-21 00:29:45,679 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-21 00:29:45,679 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+INFO:     127.0.0.1:60042 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60042 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:35:07,328 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:07,333 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:07,333 INFO sqlalchemy.engine.Engine [generated in 0.00060s] ()
+INFO:     127.0.0.1:60040 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:07,335 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:35:07,336 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:07,336 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:07,337 INFO sqlalchemy.engine.Engine [cached since 0.004097s ago] ()
+INFO:     127.0.0.1:60042 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:07,338 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60051 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:35:26,824 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:26,825 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:26,825 INFO sqlalchemy.engine.Engine [cached since 19.49s ago] ()
+INFO:     127.0.0.1:60051 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60046 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:26,983 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:35:26,984 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:26,984 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:26,984 INFO sqlalchemy.engine.Engine [cached since 19.65s ago] ()
+INFO:     127.0.0.1:60051 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:26,985 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60053 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60053 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60059 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:35:35,751 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:35,751 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:35,752 INFO sqlalchemy.engine.Engine [cached since 28.42s ago] ()
+INFO:     127.0.0.1:60059 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60053 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:35,902 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:35:35,903 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:35,903 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:35,903 INFO sqlalchemy.engine.Engine [cached since 28.57s ago] ()
+INFO:     127.0.0.1:60059 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:35,904 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60063 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60063 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:35:47,211 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:47,211 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:47,212 INFO sqlalchemy.engine.Engine [cached since 39.88s ago] ()
+INFO:     127.0.0.1:60063 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:47,214 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:35:47,215 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:35:47,215 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:35:47,215 INFO sqlalchemy.engine.Engine [cached since 39.88s ago] ()
+INFO:     127.0.0.1:60067 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:35:47,216 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60076 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60076 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:36:09,013 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:09,014 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:36:09,014 INFO sqlalchemy.engine.Engine [cached since 61.68s ago] ()
+INFO:     127.0.0.1:60074 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:36:09,015 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:36:09,016 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:09,016 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:36:09,016 INFO sqlalchemy.engine.Engine [cached since 61.69s ago] ()
+INFO:     127.0.0.1:60076 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:36:09,017 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60076 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60074 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:36:10,591 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:10,592 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:36:10,592 INFO sqlalchemy.engine.Engine [cached since 63.26s ago] ()
+INFO:     127.0.0.1:60074 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:36:10,594 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:36:10,595 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:10,595 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:36:10,595 INFO sqlalchemy.engine.Engine [cached since 63.26s ago] ()
+INFO:     127.0.0.1:60076 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:36:10,597 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:36:12,292 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:12,303 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-21 00:36:12,303 INFO sqlalchemy.engine.Engine [generated in 0.00016s] ()
+INFO:     127.0.0.1:60076 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-21 00:36:12,307 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:36:12,308 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:12,308 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-21 00:36:12,308 INFO sqlalchemy.engine.Engine [cached since 0.004906s ago] ()
+INFO:     127.0.0.1:60074 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-21 00:36:12,309 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:36:22,448 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:22,449 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:36:22,450 INFO sqlalchemy.engine.Engine [cached since 75.12s ago] ()
+INFO:     127.0.0.1:60083 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60078 - "GET /templates/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60083 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:36:22,757 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:36:22,758 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:36:22,759 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:36:22,759 INFO sqlalchemy.engine.Engine [cached since 75.43s ago] ()
+INFO:     127.0.0.1:60085 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:36:22,760 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60094 - "GET /assets/ HTTP/1.1" 200 OK
+2026-02-21 00:37:03,167 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:37:03,168 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:37:03,169 INFO sqlalchemy.engine.Engine [cached since 115.8s ago] ()
+INFO:     127.0.0.1:60096 - "GET /assets/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60092 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:37:03,336 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-21 00:37:03,338 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-21 00:37:03,339 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-21 00:37:03,339 INFO sqlalchemy.engine.Engine [cached since 116s ago] ()
+INFO:     127.0.0.1:60096 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-21 00:37:03,341 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:52943 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52966 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 10:46:27,267 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:46:27,272 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:46:27,272 INFO sqlalchemy.engine.Engine [cached since 5.112e+04s ago] ()
+2026-02-23 10:46:27,278 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:46:27,278 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:46:27,279 INFO sqlalchemy.engine.Engine [cached since 5.112e+04s ago] ()
+2026-02-23 10:46:27,284 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:52964 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:46:27,285 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:52980 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 10:46:43,114 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:46:43,114 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:46:43,114 INFO sqlalchemy.engine.Engine [cached since 5.114e+04s ago] ()
+INFO:     127.0.0.1:52979 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:46:43,115 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53019 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53019 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 10:48:16,851 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:16,851 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:48:16,851 INFO sqlalchemy.engine.Engine [cached since 5.123e+04s ago] ()
+INFO:     127.0.0.1:53019 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:48:16,854 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:16,856 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:16,856 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:48:16,856 INFO sqlalchemy.engine.Engine [cached since 5.123e+04s ago] ()
+INFO:     127.0.0.1:53021 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:48:16,860 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:18,792 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:18,793 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 10:48:18,793 INFO sqlalchemy.engine.Engine [cached since 5.117e+04s ago] ()
+INFO:     127.0.0.1:53021 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 10:48:18,801 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:18,803 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:18,803 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 10:48:18,803 INFO sqlalchemy.engine.Engine [cached since 5.117e+04s ago] ()
+INFO:     127.0.0.1:53019 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 10:48:18,804 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53021 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 10:48:23,002 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:23,002 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:48:23,002 INFO sqlalchemy.engine.Engine [cached since 5.124e+04s ago] ()
+INFO:     127.0.0.1:53021 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53019 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:48:23,103 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:23,104 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:23,104 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:48:23,104 INFO sqlalchemy.engine.Engine [cached since 5.124e+04s ago] ()
+INFO:     127.0.0.1:53021 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:48:23,105 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53021 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53019 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 10:48:25,255 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:25,255 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:48:25,255 INFO sqlalchemy.engine.Engine [cached since 5.124e+04s ago] ()
+INFO:     127.0.0.1:53019 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:48:25,256 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:25,257 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:25,257 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:48:25,257 INFO sqlalchemy.engine.Engine [cached since 5.124e+04s ago] ()
+INFO:     127.0.0.1:53021 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:48:25,258 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:28,863 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:28,867 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 10:48:28,868 INFO sqlalchemy.engine.Engine [cached since 5.118e+04s ago] ()
+INFO:     127.0.0.1:53021 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 10:48:28,872 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:28,874 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:28,874 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 10:48:28,874 INFO sqlalchemy.engine.Engine [cached since 5.118e+04s ago] ()
+INFO:     127.0.0.1:53019 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 10:48:28,877 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:48:33,837 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:48:33,837 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 10:48:33,837 INFO sqlalchemy.engine.Engine [cached since 5.119e+04s ago] ()
+INFO:     127.0.0.1:53019 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 10:48:33,841 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:49:16,777 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:49:16,778 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 10:49:16,778 INFO sqlalchemy.engine.Engine [cached since 5.123e+04s ago] ()
+INFO:     127.0.0.1:53024 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 10:49:16,780 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:49:16,781 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:49:16,781 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 10:49:16,781 INFO sqlalchemy.engine.Engine [cached since 5.123e+04s ago] ()
+INFO:     127.0.0.1:53059 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 10:49:16,782 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53059 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53024 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 10:49:20,086 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:49:20,086 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:49:20,087 INFO sqlalchemy.engine.Engine [cached since 5.13e+04s ago] ()
+INFO:     127.0.0.1:53024 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:49:20,089 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 10:49:20,089 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 10:49:20,089 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 10:49:20,090 INFO sqlalchemy.engine.Engine [cached since 5.13e+04s ago] ()
+INFO:     127.0.0.1:53059 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 10:49:20,090 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53206 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53206 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:04:24,655 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:04:24,656 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:04:24,656 INFO sqlalchemy.engine.Engine [cached since 5.22e+04s ago] ()
+INFO:     127.0.0.1:53204 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:04:24,659 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:04:24,660 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:04:24,660 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:04:24,660 INFO sqlalchemy.engine.Engine [cached since 5.22e+04s ago] ()
+INFO:     127.0.0.1:53206 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:04:24,661 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53244 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53244 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:08:38,163 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:08:38,165 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:08:38,165 INFO sqlalchemy.engine.Engine [cached since 5.245e+04s ago] ()
+INFO:     127.0.0.1:53247 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:08:38,168 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:08:38,169 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:08:38,169 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:08:38,169 INFO sqlalchemy.engine.Engine [cached since 5.245e+04s ago] ()
+INFO:     127.0.0.1:53247 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:08:38,171 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:08:40,818 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:08:40,819 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 11:08:40,819 INFO sqlalchemy.engine.Engine [cached since 5.239e+04s ago] ()
+INFO:     127.0.0.1:53247 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 11:08:40,821 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:08:40,821 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:08:40,821 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 11:08:40,821 INFO sqlalchemy.engine.Engine [cached since 5.239e+04s ago] ()
+INFO:     127.0.0.1:53250 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 11:08:40,822 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53255 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:08:50,905 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:08:50,905 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:08:50,906 INFO sqlalchemy.engine.Engine [cached since 5.247e+04s ago] ()
+INFO:     127.0.0.1:53255 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53253 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:08:51,008 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:08:51,009 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:08:51,009 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:08:51,009 INFO sqlalchemy.engine.Engine [cached since 5.247e+04s ago] ()
+INFO:     127.0.0.1:53255 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:08:51,010 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53272 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:09:17,122 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:09:17,122 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:09:17,123 INFO sqlalchemy.engine.Engine [cached since 5.249e+04s ago] ()
+INFO:     127.0.0.1:53272 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53257 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:09:17,225 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:09:17,226 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:09:17,226 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:09:17,226 INFO sqlalchemy.engine.Engine [cached since 5.249e+04s ago] ()
+INFO:     127.0.0.1:53272 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:09:17,227 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53272 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53257 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:09:22,075 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:09:22,075 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:09:22,075 INFO sqlalchemy.engine.Engine [cached since 5.25e+04s ago] ()
+INFO:     127.0.0.1:53257 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:09:22,077 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:09:22,077 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:09:22,077 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:09:22,077 INFO sqlalchemy.engine.Engine [cached since 5.25e+04s ago] ()
+INFO:     127.0.0.1:53272 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:09:22,078 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53613 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53613 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:38:15,473 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:15,473 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:15,473 INFO sqlalchemy.engine.Engine [cached since 5.423e+04s ago] ()
+INFO:     127.0.0.1:53611 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:15,480 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:38:15,482 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:15,482 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:15,482 INFO sqlalchemy.engine.Engine [cached since 5.423e+04s ago] ()
+INFO:     127.0.0.1:53613 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:15,484 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53613 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53611 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:38:17,108 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:17,109 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:17,109 INFO sqlalchemy.engine.Engine [cached since 5.423e+04s ago] ()
+INFO:     127.0.0.1:53611 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:17,112 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:38:17,113 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:17,113 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:17,114 INFO sqlalchemy.engine.Engine [cached since 5.423e+04s ago] ()
+INFO:     127.0.0.1:53613 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:17,114 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:38:19,194 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:19,194 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 11:38:19,194 INFO sqlalchemy.engine.Engine [cached since 5.417e+04s ago] ()
+INFO:     127.0.0.1:53613 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 11:38:19,197 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:38:19,198 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:19,198 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 11:38:19,198 INFO sqlalchemy.engine.Engine [cached since 5.417e+04s ago] ()
+INFO:     127.0.0.1:53611 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 11:38:19,200 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53613 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53616 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:38:21,557 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:21,558 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:21,558 INFO sqlalchemy.engine.Engine [cached since 5.424e+04s ago] ()
+INFO:     127.0.0.1:53611 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:21,559 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:38:21,560 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:21,560 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:21,560 INFO sqlalchemy.engine.Engine [cached since 5.424e+04s ago] ()
+INFO:     127.0.0.1:53616 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:21,561 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:53619 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53619 - "GET /assets/ HTTP/1.1" 500 Internal Server Error
+2026-02-23 11:38:30,312 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:30,312 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:30,312 INFO sqlalchemy.engine.Engine [cached since 5.425e+04s ago] ()
+INFO:     127.0.0.1:53619 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:30,313 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 11:38:30,313 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 11:38:30,313 INFO sqlalchemy.engine.Engine SELECT template.name, template.description, template.user_template_text, template.id 
+FROM template
+2026-02-23 11:38:30,313 INFO sqlalchemy.engine.Engine [cached since 5.425e+04s ago] ()
+INFO:     127.0.0.1:53621 - "GET /templates/ HTTP/1.1" 200 OK
+2026-02-23 11:38:30,314 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:22,816 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:22,823 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:22,826 INFO sqlalchemy.engine.Engine [cached since 5.705e+04s ago] ()
+INFO:     127.0.0.1:54168 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:22,852 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:22,854 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:22,854 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:22,854 INFO sqlalchemy.engine.Engine [cached since 5.705e+04s ago] ()
+INFO:     127.0.0.1:54170 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:22,855 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:28,059 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:28,059 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:28,060 INFO sqlalchemy.engine.Engine [cached since 5.706e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:28,063 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:33,064 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:33,066 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:33,066 INFO sqlalchemy.engine.Engine [cached since 5.706e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:33,072 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:38,058 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:38,058 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:38,059 INFO sqlalchemy.engine.Engine [cached since 5.707e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:38,060 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:42,798 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:42,798 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:42,798 INFO sqlalchemy.engine.Engine [cached since 5.707e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:42,800 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:47,800 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:47,800 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:47,800 INFO sqlalchemy.engine.Engine [cached since 5.708e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:47,802 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:52,797 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:52,799 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:52,799 INFO sqlalchemy.engine.Engine [cached since 5.708e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:52,801 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:26:57,799 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:26:57,799 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:26:57,799 INFO sqlalchemy.engine.Engine [cached since 5.709e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:26:57,801 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:27:02,798 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:27:02,799 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:27:02,799 INFO sqlalchemy.engine.Engine [cached since 5.709e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:27:02,801 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:27:07,799 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:27:07,800 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:27:07,800 INFO sqlalchemy.engine.Engine [cached since 5.71e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:27:07,802 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:27:12,798 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:27:12,798 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:27:12,798 INFO sqlalchemy.engine.Engine [cached since 5.71e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:27:12,800 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:27:17,799 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:27:17,799 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:27:17,799 INFO sqlalchemy.engine.Engine [cached since 5.711e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:27:17,800 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-02-23 12:27:22,798 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:27:22,799 INFO sqlalchemy.engine.Engine SELECT job.id, job.status, job.created_at, job.updated_at, job.result_gcs_path, job.result_public_url, job.error_message, job.request_image_path, job.request_prompt 
+FROM job ORDER BY job.created_at DESC
+2026-02-23 12:27:22,799 INFO sqlalchemy.engine.Engine [cached since 5.711e+04s ago] ()
+INFO:     127.0.0.1:54172 - "GET /video/jobs HTTP/1.1" 200 OK
+2026-02-23 12:27:22,803 INFO sqlalchemy.engine.Engine ROLLBACK
+WARNING:  StatReload detected changes in 'app/models.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [51879]
+INFO:     Started server process [66118]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-23 12:28:28,493 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:28:28,494 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-23 12:28:28,494 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-23 12:28:28,495 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-23 12:28:28,495 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-23 12:28:28,495 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/services/video_generation.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [66118]
+INFO:     Started server process [66125]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-23 12:28:42,652 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:28:42,652 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-23 12:28:42,652 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-23 12:28:42,653 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-23 12:28:42,653 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-23 12:28:42,653 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/api/endpoints/video.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [66125]
+INFO:     Started server process [66130]
+INFO:     Waiting for application startup.
+Lifespan: 서버 시작, DB 및 테이블 생성
+2026-02-23 12:29:04,035 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-02-23 12:29:04,035 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("job")
+2026-02-23 12:29:04,035 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-23 12:29:04,035 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("template")
+2026-02-23 12:29:04,035 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-02-23 12:29:04,035 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Application startup complete.
