@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Upload, Info, CheckCircle2, AlertCircle, BrainCircuit, Image as ImageIcon, Loader2, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { startTraining } from '../../services/trainingService';
 
 export default function TrainingStudio() {
   const { language, t } = useLanguage();
@@ -32,15 +33,15 @@ export default function TrainingStudio() {
     setResponseMessage('');
 
     try {
-      // Simulate neural network training progress
-      const steps = [0, 12, 25, 48, 62, 79, 92, 100];
-      for (const p of steps) {
-        setProgress(p);
-        await new Promise(resolve => setTimeout(resolve, 800)); // Total ~6s
-      }
+      // 1. 프로그레스바 시각화 (업로드 단계 모방)
+      setProgress(25);
 
+      // 2. 실제 백엔드 통신
+      const result = await startTraining(modelName, files);
+
+      setProgress(100);
       setTrainingStatus('success');
-      setResponseMessage(language === 'ko' ? "데이터가 신경망 큐에 정상적으로 주입되었습니다." : "Data successfully injected into the neural queue.");
+      setResponseMessage(language === 'ko' ? `서버 응답: ${result.message}` : `Server: ${result.message}`);
       setStep(4);
     } catch (error: any) {
       setTrainingStatus('error');

@@ -8,14 +8,14 @@ export interface TrainingResponse {
 export const startTraining = async (modelName: string, files: File[]): Promise<TrainingResponse> => {
   const formData = new FormData();
   formData.append("model_name", modelName);
-  
+
   // 모든 파일을 FormData에 추가
   files.forEach((file) => {
     formData.append("files", file); // 중요: backend에서 List[UploadFile]로 받음
   });
 
   try {
-    const response = await fetch("http://localhost:8002/training/start", {
+    const response = await fetch("/api/training/start", {
       method: "POST",
       body: formData,
       // Content-Type을 설정하지 않아야 브라우저가 boundary를 자동으로 추가함
